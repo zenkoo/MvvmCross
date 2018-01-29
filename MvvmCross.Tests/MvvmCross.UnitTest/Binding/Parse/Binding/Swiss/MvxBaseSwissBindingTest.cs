@@ -6,7 +6,7 @@ using MvvmCross.Binding.Parse.Binding;
 using MvvmCross.Binding.Parse.Binding.Swiss;
 using MvvmCross.Platform.Logging;
 using MvvmCross.Platform.Platform;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
 {
@@ -14,7 +14,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
         : MvxBindingTest
         where TParser : MvxSwissBindingParser, new()
     {
-        [Test]
+        [Fact]
         public void TestPathBinding()
         {
             var text = "Target James.T.Kirk";
@@ -32,7 +32,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestCommandParameterStringBinding()
         {
             var text = "Click MyCommand, CommandParameter=Foo";
@@ -52,7 +52,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestCommandParameterQuotedStringBinding()
         {
             var text = "Click MyCommand, CommandParameter=\"Love Converter=;Fred,It\"";
@@ -72,7 +72,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestCommandParameterNumberBinding()
         {
             var text = "Tap Bar, CommandParameter=-12.12";
@@ -92,7 +92,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestCommandParameterBooleanBinding()
         {
             var text = "Life Love, CommandParameter=false";
@@ -112,7 +112,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestCommandParameterNullBinding()
         {
             var text = "Life Love, CommandParameter=null";
@@ -132,7 +132,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestSimpleBinding()
         {
             foreach (var parameterSet in GenerateAllTestParameters())
@@ -141,7 +141,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             }
         }
 
-        [Test]
+        [Fact]
         public void TestTupleBinding()
         {
             foreach (var parameterSet1 in GenerateSampledTestParameters(101, 20))
@@ -151,7 +151,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
                 }
         }
 
-        [Test]
+        [Fact]
         public void TestLongTupleBinding()
         {
             foreach (var parameterSet1 in GenerateSampledTestParameters(79, 5))

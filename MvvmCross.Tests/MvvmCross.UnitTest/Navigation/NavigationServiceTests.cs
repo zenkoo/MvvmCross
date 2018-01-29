@@ -8,11 +8,11 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Test.Core;
 using MvvmCross.Test.Mocks.Dispatchers;
 using MvvmCross.Test.Mocks.ViewModels;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Test.Navigation
 {
-    [TestFixture]
+    
     public class NavigationServiceTests
         : MvxIoCSupportingTest
     {
@@ -20,7 +20,7 @@ namespace MvvmCross.Test.Navigation
 
         protected Mock<IMvxViewModelLoader> MockLoader { get; set; }
 
-        [SetUp]
+        
         public void SetupTest()
         {
             Setup();
@@ -90,7 +90,7 @@ namespace MvvmCross.Test.Navigation
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateNoBundle()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -105,7 +105,7 @@ namespace MvvmCross.Test.Navigation
                 Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateWithBundle()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -121,7 +121,7 @@ namespace MvvmCross.Test.Navigation
             //mockVm.Verify(vm => vm.Init(It.Is<string>(s => s == "world")), Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateViewModelInstance()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -140,7 +140,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateWithParameter()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -158,7 +158,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateViewModelInstanceWithParameter()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -178,7 +178,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateTypeOfNoBundle()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -193,7 +193,7 @@ namespace MvvmCross.Test.Navigation
                 Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateTypeOfWithBundle()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -207,7 +207,7 @@ namespace MvvmCross.Test.Navigation
             //mockVm.Verify(vm => vm.Init(It.Is<string>(s => s == "world")), Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateTypeOfWithParameter()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -225,7 +225,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateForResult()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -243,7 +243,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_NavigateCallbacks()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -266,7 +266,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(afterNavigate == 6);
         }
 
-        [Test]
+        [Fact]
         public async Task Test_CloseCallbacks()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();
@@ -285,7 +285,7 @@ namespace MvvmCross.Test.Navigation
             Assert.IsTrue(afterClose == 2);
         }
 
-        [Test]
+        [Fact]
         public void Test_ChangePresentationCallbacks()
         {
             var navigationService = Ioc.Resolve<IMvxNavigationService>();

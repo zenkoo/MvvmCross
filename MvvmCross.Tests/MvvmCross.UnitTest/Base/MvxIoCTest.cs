@@ -9,13 +9,13 @@ using System.Collections.Generic;
 using MvvmCross.Platform.Core;
 using MvvmCross.Platform.Exceptions;
 using MvvmCross.Platform.IoC;
-using NUnit.Framework;
+using Xunit;
 using System.Reflection;
 using System.Linq;
 
 namespace MvvmCross.Platform.Test
 {
-    [TestFixture]
+    
     public class MvxIocTest
     {
         public interface IA 
@@ -111,7 +111,7 @@ namespace MvvmCross.Platform.Test
             public IOG<C> OpenGeneric { get; }
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_CircularButSafeDynamicWithOptionOff_ReturnsTrue()
         {
             COdd.FirstTime = true;
@@ -132,7 +132,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNotNull(a);
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_CircularButSafeDynamicWithOptionOn_ReturnsFalse()
         {
             COdd.FirstTime = true;
@@ -149,7 +149,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNull(a);
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_CircularLazyRegistration_ReturnsFalse()
         {
             MvxSingleton.ClearAllSingletons();
@@ -165,7 +165,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNull(a);
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_NonCircularRegistration_ReturnsTrue()
         {
             MvxSingleton.ClearAllSingletons();
@@ -181,7 +181,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNotNull(a);
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_LazySingleton_ReturnsSameSingletonEachTime()
         {
             MvxSingleton.ClearAllSingletons();
@@ -205,7 +205,7 @@ namespace MvvmCross.Platform.Test
             }
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_NonLazySingleton_ReturnsSameSingletonEachTime()
         {
             MvxSingleton.ClearAllSingletons();
@@ -229,7 +229,7 @@ namespace MvvmCross.Platform.Test
             }
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_Dynamic_ReturnsDifferentInstanceEachTime()
         {
             MvxSingleton.ClearAllSingletons();
@@ -247,12 +247,12 @@ namespace MvvmCross.Platform.Test
                 var result = Mvx.TryResolve(out a1);
                 Assert.IsTrue(result);
                 Assert.IsFalse(previous.ContainsKey(a1));
-                Assert.AreEqual(i, previous.Count);
+                Assert.Equal(i, previous.Count);
                 previous.Add(a1, true);
             }
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_ParameterConstructors_CreatesParametersUsingIocResolution()
         {
             MvxSingleton.ClearAllSingletons();
@@ -270,7 +270,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsInstanceOf<B>(a1.B);
         }
 
-        [Test]
+        [Fact]
         public void RegisterType_with_constructor_creates_different_objects()
         {
             MvxSingleton.ClearAllSingletons();
@@ -287,7 +287,7 @@ namespace MvvmCross.Platform.Test
             Assert.AreNotEqual(c1, c2);
         }
 
-        [Test]
+        [Fact]
         public void Non_generic_RegisterType_with_constructor_creates_different_objects()
         {
             MvxSingleton.ClearAllSingletons();
@@ -304,7 +304,7 @@ namespace MvvmCross.Platform.Test
             Assert.AreNotEqual(c1, c2);
         }
 
-        [Test]
+        [Fact]
         public void Non_generic_RegisterType_with_constructor_throws_if_constructor_returns_incompatible_reference()
         {
             MvxSingleton.ClearAllSingletons();
@@ -317,7 +317,7 @@ namespace MvvmCross.Platform.Test
             });
         }
 
-        [Test]
+        [Fact]
         public void Non_generic_RegisterType_with_constructor_throws_if_constructor_returns_incompatible_value()
         {
             MvxSingleton.ClearAllSingletons();
@@ -332,7 +332,7 @@ namespace MvvmCross.Platform.Test
 
         #region Open-Generics
 
-        [Test]
+        [Fact]
         public static void Resolves_successfully_when_registered_open_generic_with_one_generic_type_parameter()
         {
             var instance = MvxIoCProvider.Initialize();
@@ -348,7 +348,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsTrue(toResolve.GetType() == typeof(OG<C2>));
         }
 
-        [Test]
+        [Fact]
         public static void Resolves_successfully_when_registered_closed_generic_with_one_generic_type_parameter()
         {
             var instance = MvxIoCProvider.Initialize();
@@ -364,7 +364,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsTrue(toResolve.GetType() == typeof(OG<C2>));
         }
 
-        [Test]
+        [Fact]
         public static void Resolves_successfully_when_registered_open_generic_with_two_generic_type_parameter()
         {
             var instance = MvxIoCProvider.Initialize();
@@ -380,7 +380,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsTrue(toResolve.GetType() == typeof(OG2<C2, C>));
         }
 
-        [Test]
+        [Fact]
         public static void Resolves_successfully_when_registered_closed_generic_with_two_generic_type_parameter()
         {
             var instance = MvxIoCProvider.Initialize();
@@ -396,7 +396,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsTrue(toResolve.GetType() == typeof(OG2<C2, C>));
         }
 
-        [Test]
+        [Fact]
         public static void Resolves_unsuccessfully_when_registered_open_generic_with_one_generic_parameter_that_was_not_registered()
         {
             var instance = MvxIoCProvider.Initialize();
@@ -410,7 +410,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNull(toResolve);
         }
 
-        [Test]
+        [Fact]
         public static void Resolves_successfully_when_resolving_entity_that_has_injected_an_open_generic_parameter()
         {
             var instance = MvxIoCProvider.Initialize();
@@ -433,7 +433,7 @@ namespace MvvmCross.Platform.Test
 
         #region Child Container
 
-        [Test]
+        [Fact]
         public static void Resolves_successfully_when_using_childcontainer()
         {
             var container = MvxIoCProvider.Initialize();

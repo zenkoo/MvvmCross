@@ -6,11 +6,11 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using MvvmCross.Platform.Core;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Platform.Test
 {
-    [TestFixture]
+    
     public class MvxPropertyNameFromExpressionTests
     {
         public class TestClass
@@ -23,20 +23,20 @@ namespace MvvmCross.Platform.Test
             }
         }
 
-        [Test]
+        [Fact]
         public void TestPropertyExpression()
         {
             var t = new TestClass();
             var result = t.GetFooExpression();
-            Assert.AreEqual("Foo", result);
+            Assert.Equal("Foo", result);
         }
 
-        [Test]
+        [Fact]
         public void TestUnaryPropertyExpression()
         {
             var t = new TestClass();
             var result = t.GetPropertyNameFromExpression(() => t.Foo);
-            Assert.AreEqual("Foo", result);
+            Assert.Equal("Foo", result);
         }
     }
 }

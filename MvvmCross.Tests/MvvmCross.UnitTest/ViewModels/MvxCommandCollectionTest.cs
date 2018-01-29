@@ -11,11 +11,11 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Core;
 using MvvmCross.Test.Core;
 using MvvmCross.Test.Mocks.Dispatchers;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Test.ViewModels
 {
-    [TestFixture]
+    
     public class MvxCommandCollectionTest : MvxIoCSupportingTest
     {
         public class CommandTestClass : INotifyPropertyChanged
@@ -145,7 +145,7 @@ namespace MvvmCross.Test.ViewModels
             }
         }
 
-        [Test]
+        [Fact]
         public void Test_Conventional_Command()
         {
             ClearAll();
@@ -165,7 +165,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, 4, 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_Conventional_Command_CanExecute()
         {
             ClearAll();
@@ -185,7 +185,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countCanExecuteMyCalled: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_Conventional_Parameter_Command()
         {
             ClearAll();
@@ -205,7 +205,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countMyExCalled: 4, countCanExecuteMyExCalled: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_Conventional_Parameter_Command_CanExecute()
         {
             ClearAll();
@@ -225,7 +225,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countCanExecuteMyExCalled: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_IntReturning_Command()
         {
             ClearAll();
@@ -245,7 +245,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countIntReturningCalled: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_Attribute1_Command()
         {
             ClearAll();
@@ -265,7 +265,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countAttributedCalled: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_Attribute2_Command()
         {
             ClearAll();
@@ -285,7 +285,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countAttributed2Called: 4, countCanExecuteAttributed2Called: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_Attribute2_Command_CanExecute()
         {
             ClearAll();
@@ -305,7 +305,7 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject, countCanExecuteAttributed2Called: 4);
         }
 
-        [Test]
+        [Fact]
         public void Test_PropertyChanged_Raises_CanExecuteChange()
         {
             ClearAll();
@@ -340,30 +340,30 @@ namespace MvvmCross.Test.ViewModels
             CheckCounts(testObject);
 
             testObject.RaisePropertyChanged("CanExecuteAttributed2");
-            Assert.AreEqual(0, countMy);
-            Assert.AreEqual(0, countMyEx);
-            Assert.AreEqual(0, countAttr);
-            Assert.AreEqual(1, countAttr2);
+            Assert.Equal(0, countMy);
+            Assert.Equal(0, countMyEx);
+            Assert.Equal(0, countAttr);
+            Assert.Equal(1, countAttr2);
 
             testObject.RaisePropertyChanged("CanExecuteAttributed2");
-            Assert.AreEqual(0, countMy);
-            Assert.AreEqual(0, countMyEx);
-            Assert.AreEqual(0, countAttr);
-            Assert.AreEqual(2, countAttr2);
+            Assert.Equal(0, countMy);
+            Assert.Equal(0, countMyEx);
+            Assert.Equal(0, countAttr);
+            Assert.Equal(2, countAttr2);
 
             testObject.RaisePropertyChanged("CanExecuteAttributed");
-            Assert.AreEqual(0, countMy);
-            Assert.AreEqual(0, countMyEx);
-            Assert.AreEqual(0, countAttr);
-            Assert.AreEqual(2, countAttr2);
+            Assert.Equal(0, countMy);
+            Assert.Equal(0, countMyEx);
+            Assert.Equal(0, countAttr);
+            Assert.Equal(2, countAttr2);
 
             testObject.RaisePropertyChanged("CanExecuteMyCommand");
             testObject.RaisePropertyChanged("CanExecuteMyCommand");
             testObject.RaisePropertyChanged("CanExecuteMyCommand");
-            Assert.AreEqual(3, countMy);
-            Assert.AreEqual(0, countMyEx);
-            Assert.AreEqual(0, countAttr);
-            Assert.AreEqual(2, countAttr2);
+            Assert.Equal(3, countMy);
+            Assert.Equal(0, countMyEx);
+            Assert.Equal(0, countAttr);
+            Assert.Equal(2, countAttr2);
 
             testObject.RaisePropertyChanged("CanExecuteMyExCommand");
             testObject.RaisePropertyChanged("CanExecuteMyCommand");
@@ -373,13 +373,13 @@ namespace MvvmCross.Test.ViewModels
             testObject.RaisePropertyChanged("CanExecuteMyExCommand");
             testObject.RaisePropertyChanged("CanExecuteMyExCommand");
             testObject.RaisePropertyChanged("CanExecuteMyExCommand");
-            Assert.AreEqual(5, countMy);
-            Assert.AreEqual(6, countMyEx);
-            Assert.AreEqual(0, countAttr);
-            Assert.AreEqual(2, countAttr2);
+            Assert.Equal(5, countMy);
+            Assert.Equal(6, countMyEx);
+            Assert.Equal(0, countAttr);
+            Assert.Equal(2, countAttr2);
         }
 
-        [Test]
+        [Fact]
         public void Test_PropertyChanged_Raises_Multiple_CanExecuteChange()
         {
             ClearAll();
@@ -402,12 +402,12 @@ namespace MvvmCross.Test.ViewModels
             calledByAttr2Command.CanExecuteChanged += (sender, args) => countAttr2++;
 
             testObject.RaisePropertyChanged("CanExecuteAttributed");
-            Assert.AreEqual(1, countAttr);
-            Assert.AreEqual(1, countAttr2);
+            Assert.Equal(1, countAttr);
+            Assert.Equal(1, countAttr2);
 
             testObject.RaisePropertyChanged("CanExecuteAttributed");
-            Assert.AreEqual(2, countAttr);
-            Assert.AreEqual(2, countAttr2);
+            Assert.Equal(2, countAttr);
+            Assert.Equal(2, countAttr2);
         }
 
         private void CheckCounts(
@@ -422,15 +422,15 @@ namespace MvvmCross.Test.ViewModels
             int countCanExecuteAttributed2Called = 0, 
             int countIntReturningCalled = 0)
         {
-            Assert.AreEqual(countMyCalled, testObject.CountMyCommandCalled);
-            Assert.AreEqual(countCanExecuteMyCalled, testObject.CountCanExecuteMyCommandCalled);
-            Assert.AreEqual(countMyExCalled, testObject.CountMyExCommandCalled);
-            Assert.AreEqual(countCanExecuteMyExCalled, testObject.CountCanExecuteMyExCommandCalled);
-            Assert.AreEqual(countNotACalled, testObject.CountNotACmdCalled);
-            Assert.AreEqual(countAttributedCalled, testObject.CountAttributedCalled);
-            Assert.AreEqual(countAttributed2Called, testObject.CountAttributed2Called);
-            Assert.AreEqual(countCanExecuteAttributed2Called, testObject.CountCanExecuteAttributed2Called);
-            Assert.AreEqual(countIntReturningCalled, testObject.CountAnIntReturningCalled);
+            Assert.Equal(countMyCalled, testObject.CountMyCommandCalled);
+            Assert.Equal(countCanExecuteMyCalled, testObject.CountCanExecuteMyCommandCalled);
+            Assert.Equal(countMyExCalled, testObject.CountMyExCommandCalled);
+            Assert.Equal(countCanExecuteMyExCalled, testObject.CountCanExecuteMyExCommandCalled);
+            Assert.Equal(countNotACalled, testObject.CountNotACmdCalled);
+            Assert.Equal(countAttributedCalled, testObject.CountAttributedCalled);
+            Assert.Equal(countAttributed2Called, testObject.CountAttributed2Called);
+            Assert.Equal(countCanExecuteAttributed2Called, testObject.CountCanExecuteAttributed2Called);
+            Assert.Equal(countIntReturningCalled, testObject.CountAnIntReturningCalled);
         }
     }
 }

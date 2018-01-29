@@ -12,11 +12,11 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Core;
 using MvvmCross.Test.Core;
 using MvvmCross.Test.Mocks.Dispatchers;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Test.ViewModels
 {
-    [TestFixture]
+    
     public class MvxNotifyPropertyChangedTest : MvxIoCSupportingTest
     {
         public class TestInpc : MvxNotifyPropertyChanged
@@ -24,7 +24,7 @@ namespace MvvmCross.Test.ViewModels
             public string Foo { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void Test_RaisePropertyChangedForExpression()
         {
             ClearAll();
@@ -40,7 +40,7 @@ namespace MvvmCross.Test.ViewModels
             Assert.That(notified[0] == "Foo");
         }
 
-        [Test]
+        [Fact]
         public void Test_RaisePropertyChangedForName()
         {
             ClearAll();
@@ -56,7 +56,7 @@ namespace MvvmCross.Test.ViewModels
             Assert.That(notified[0] == "Foo");
         }
 
-        [Test]
+        [Fact]
         public void Test_RaisePropertyChangedDirect()
         {
             ClearAll();
@@ -72,7 +72,7 @@ namespace MvvmCross.Test.ViewModels
             Assert.That(notified[0] == "Foo");
         }
 
-        [Test]
+        [Fact]
         public void Test_TurnOffUIThread()
         {
             ClearAll();
@@ -92,7 +92,7 @@ namespace MvvmCross.Test.ViewModels
             t.ShouldAlwaysRaiseInpcOnUserInterfaceThread(true);
             t.RaisePropertyChanged(new PropertyChangedEventArgs("Foo"));
 
-            Assert.AreEqual(1, dispatcher.Count);
+            Assert.Equal(1, dispatcher.Count);
             Assert.That(notified.Count == 1);
             Assert.That(notified[0] == "Foo");
         }
@@ -107,7 +107,7 @@ namespace MvvmCross.Test.ViewModels
             }
         }
 
-        [Test]
+        [Fact]
         public void Test_Interceptor()
         {
             ClearAll();

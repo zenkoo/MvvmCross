@@ -10,15 +10,15 @@ using MvvmCross.Binding.Parse.Binding;
 using MvvmCross.Binding.Parse.Binding.Tibet;
 using MvvmCross.Platform.Logging;
 using MvvmCross.Platform.Platform;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
 {
-    [TestFixture]
+    
     public class MvxTibetBindingTest
         : MvxBaseSwissBindingTest<MvxTibetBindingParser>
     {
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterBinding()
         {
             var text = "Target ConvertThis(Foo)";
@@ -43,7 +43,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithParameterBinding()
         {
             var text = "Target ConvertThis(Foo, 12)";
@@ -72,7 +72,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithParameterBinding2()
         {
             var text = "Target ConvertThis(Foo, 12.45)";
@@ -101,7 +101,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithParameterBinding3()
         {
             var text = "Target ConvertThis(Foo, true)";
@@ -130,7 +130,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithParameterBinding4()
         {
             var text = "Target ConvertThis(Foo, 'Hello World')";
@@ -159,7 +159,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestSimpleCombinerBinding()
         {
             var text = "Target CombineThis(Foo, Foo2)";
@@ -188,7 +188,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestAdvancedCombinerBinding()
         {
             var text = "Target CombineThis(First(Foo1, 'param1'), (Foo2, Converter=Second, FallbackValue=23), 'test this', 23)";
@@ -245,7 +245,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestOperatorCombinerBinding()
         {
             var text = "Target First(Foo1, 'param1') + (Foo2, Converter=Second, FallbackValue=23) - 'test this'";
@@ -305,7 +305,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestOperatorWithPathCombinerBinding()
         {
             var text = "Target First(Foo1, 'param1') + (Foo2, Converter=Second, FallbackValue=23) - Life.Like.That";
@@ -365,7 +365,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestAllOperators()
         {
             var operators = new Dictionary<string, string>()
@@ -414,7 +414,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             }
         }
 
-        [Test]
+        [Fact]
         public void TestLiteralBinding()
         {
             var text = "Target 'James'";
@@ -432,7 +432,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestLiteralNullBinding()
         {
             var text = "Target null";
@@ -450,7 +450,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestValueConverterNullBinding()
         {
             var text = "Target Conv(null)";
@@ -475,7 +475,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithNullInTheName()
         {
             TestFunctionalValueConverterWithKEYWORDInTheName("Null");
@@ -483,7 +483,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             TestFunctionalValueConverterWithKEYWORDInTheName("NULL");
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithTrueInTheName()
         {
             TestFunctionalValueConverterWithKEYWORDInTheName("True");
@@ -491,7 +491,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             TestFunctionalValueConverterWithKEYWORDInTheName("TRUE");
         }
 
-        [Test]
+        [Fact]
         public void TestFunctionalValueConverterWithFalseInTheName()
         {
             TestFunctionalValueConverterWithKEYWORDInTheName("False");
@@ -527,7 +527,7 @@ namespace MvvmCross.Binding.Test.Parse.Binding.Swiss
             PerformTest(text, expected);
         }
 
-        [Test]
+        [Fact]
         public void TestCommandParameterSpecialBinding()
         {
             var text = "Target CommandParameter(One, Two)";

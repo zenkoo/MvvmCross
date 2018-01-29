@@ -7,11 +7,11 @@
 
 using MvvmCross.Platform.Core;
 using MvvmCross.Platform.IoC;
-using NUnit.Framework;
+using Xunit;
 
 namespace MvvmCross.Platform.Test
 {
-    [TestFixture]
+    
     public class MvxIocPropertyInjectionTest
     {
         public interface IA
@@ -51,7 +51,7 @@ namespace MvvmCross.Platform.Test
         {
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_WithNoInjection_NothingGetsInjected()
         {
             MvxSingleton.ClearAllSingletons();
@@ -73,7 +73,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNull(castA.CNever);
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_WithAttrInjection_AttrMarkedProperiesGetInjected()
         {
             MvxSingleton.ClearAllSingletons();
@@ -103,7 +103,7 @@ namespace MvvmCross.Platform.Test
             Assert.IsNull(castA.CNever);
         }
 
-        [Test]
+        [Fact]
         public void TryResolve_WithFullInjection_AllInterfaceProperiesGetInjected()
         {
             MvxSingleton.ClearAllSingletons();
