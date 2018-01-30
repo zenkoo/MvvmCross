@@ -109,7 +109,7 @@ namespace MvvmCross.Platform.Test
         public void Test_Reset_Clears_And_Sets_All_Properties()
         {
             var tokeniser = new Parser();
-            Assert.IsNull(tokeniser.GetFullText());
+            Assert.Null(tokeniser.GetFullText());
             Assert.Equal(0, tokeniser.GetCurrentIndex());
             var testString1 = @"1 test";
             tokeniser.CallReset(testString1);
@@ -144,7 +144,7 @@ namespace MvvmCross.Platform.Test
                 tokeniser.CallReset(testString.Key);
                 var result = tokeniser.CallReadQuotedString();
                 Assert.Equal(testString.Value, result);
-                Assert.IsTrue(tokeniser.GetIsComplete());
+                Assert.True(tokeniser.GetIsComplete());
             }
         }
 
@@ -165,7 +165,7 @@ namespace MvvmCross.Platform.Test
                 tokeniser.CallReset(testString.Key);
                 var result = tokeniser.CallReadUnsignedInteger();
                 Assert.Equal(testString.Value, result);
-                Assert.IsTrue(tokeniser.GetIsComplete());
+                Assert.True(tokeniser.GetIsComplete());
             }
         }
 
@@ -194,7 +194,7 @@ namespace MvvmCross.Platform.Test
             parser.CallReset(input);
             var output = parser.CallReadValue();
             Assert.Equal(expectedOutput, output);
-            Assert.IsTrue(parser.GetIsComplete());
+            Assert.True(parser.GetIsComplete());
         }
 
         [Fact]
@@ -257,7 +257,7 @@ namespace MvvmCross.Platform.Test
             parser.CallReset(input);
             var output = parser.CallReadEnumerationValue(enumerationType, true /* ignoreCase */);
             Assert.Equal(expectedOutput, output);
-            Assert.IsTrue(parser.GetIsComplete());
+            Assert.True(parser.GetIsComplete());
         }
 
         [Fact]
@@ -294,13 +294,13 @@ namespace MvvmCross.Platform.Test
                 parser.CallReset(name);
                 var result = parser.CallReadValidCSharpName();
                 Assert.Equal(name, result);
-                Assert.IsTrue(parser.GetIsComplete());
+                Assert.True(parser.GetIsComplete());
 
                 var parser2 = new Parser();
                 parser2.CallReset("\t " + name + " \r \t");
                 var result2 = parser2.CallReadValidCSharpName();
                 Assert.Equal(name, result2);
-                Assert.IsFalse(parser2.GetIsComplete());
+                Assert.False(parser2.GetIsComplete());
             }
         }
 
@@ -328,7 +328,7 @@ namespace MvvmCross.Platform.Test
                 {
                     exceptionThrown = true;
                 }
-                Assert.IsTrue(exceptionThrown);
+                Assert.True(exceptionThrown);
             }
         }
     }

@@ -1,37 +1,34 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using MvvmCross.Core.Navigation;
 using MvvmCross.Core.Platform;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Test.Core;
 using MvvmCross.Test.Mocks.Dispatchers;
 using MvvmCross.Test.Mocks.ViewModels;
 using Xunit;
 
 namespace MvvmCross.Test.Navigation
 {
-    
+    [Collection("MvxTest")]
     public class NavigationServiceTests
-        : MvxIoCSupportingTest
+        : IClassFixture<MvxTestFixture>
     {
+        private readonly MvxTestFixture _fixture;
+
+        public NavigationServiceTests(MvxTestFixture fixture)
+        {
+            _fixture = fixture;
+            AdditionalSetup(fixture);
+        }
+
         protected Mock<NavigationMockDispatcher> MockDispatcher { get; set; }
 
         protected Mock<IMvxViewModelLoader> MockLoader { get; set; }
 
-        
-        public void SetupTest()
+
+        private void AdditionalSetup(MvxTestFixture fixture)
         {
-            Setup();
-
-            SetInvariantCulture();
-        }
-
-        protected override void AdditionalSetup()
-        {
-            base.AdditionalSetup();
-
             MockLoader = new Mock<IMvxViewModelLoader>();
             MockLoader.Setup(
                 l => l.LoadViewModel(It.Is<MvxViewModelRequest>(val => val.ViewModelType == typeof(SimpleTestViewModel)), It.IsAny<IMvxBundle>()))
@@ -86,14 +83,14 @@ namespace MvvmCross.Test.Navigation
             {
                 ViewDispatcher = MockDispatcher.Object,
             };
-            Ioc.RegisterSingleton<IMvxNavigationService>(navigationService);
-            Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
+            fixture.Ioc.RegisterSingleton<IMvxNavigationService>(navigationService);
+            fixture.Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
         }
 
         [Fact]
         public async Task Test_NavigateNoBundle()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             await navigationService.Navigate<SimpleTestViewModel>();
 
@@ -108,7 +105,7 @@ namespace MvvmCross.Test.Navigation
         [Fact]
         public async Task Test_NavigateWithBundle()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var mockVm = new Mock<SimpleTestViewModel>();
 
@@ -124,7 +121,7 @@ namespace MvvmCross.Test.Navigation
         [Fact]
         public async Task Test_NavigateViewModelInstance()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var mockVm = new Mock<SimpleTestViewModel>();
 
@@ -137,13 +134,13 @@ namespace MvvmCross.Test.Navigation
                 x => x.ShowViewModel(It.Is<MvxViewModelInstanceRequest>(t => t.ViewModelInstance == mockVm.Object)),
                 Times.Once);
 
-            Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
+            Assert.True(MockDispatcher.Object.Requests.Count > 0);
         }
 
         [Fact]
         public async Task Test_NavigateWithParameter()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var parameter = "hello";
             await navigationService.Navigate<SimpleParameterTestViewModel, string>(parameter);
@@ -155,13 +152,13 @@ namespace MvvmCross.Test.Navigation
                 x => x.ShowViewModel(It.Is<MvxViewModelRequest>(t => t.ViewModelType == typeof(SimpleParameterTestViewModel))),
                 Times.Once);
 
-            Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
+            Assert.True(MockDispatcher.Object.Requests.Count > 0);
         }
 
         [Fact]
         public async Task Test_NavigateViewModelInstanceWithParameter()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var mockVm = new Mock<SimpleParameterTestViewModel>();
 
@@ -175,13 +172,13 @@ namespace MvvmCross.Test.Navigation
                 x => x.ShowViewModel(It.Is<MvxViewModelInstanceRequest>(t => t.ViewModelInstance == mockVm.Object)),
                 Times.Once);
 
-            Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
+            Assert.True(MockDispatcher.Object.Requests.Count > 0);
         }
 
         [Fact]
         public async Task Test_NavigateTypeOfNoBundle()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             await navigationService.Navigate(typeof(SimpleTestViewModel));
 
@@ -196,7 +193,7 @@ namespace MvvmCross.Test.Navigation
         [Fact]
         public async Task Test_NavigateTypeOfWithBundle()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var bundle = new MvxBundle();
             bundle.Write(new { hello = "world" });
@@ -210,7 +207,7 @@ namespace MvvmCross.Test.Navigation
         [Fact]
         public async Task Test_NavigateTypeOfWithParameter()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var parameter = "hello";
             await navigationService.Navigate<string>(typeof(SimpleParameterTestViewModel), parameter);
@@ -222,13 +219,13 @@ namespace MvvmCross.Test.Navigation
                 x => x.ShowViewModel(It.Is<MvxViewModelRequest>(t => t.ViewModelType == typeof(SimpleParameterTestViewModel))),
                 Times.Once);
 
-            Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
+            Assert.True(MockDispatcher.Object.Requests.Count > 0);
         }
 
         [Fact]
         public async Task Test_NavigateForResult()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             var result = await navigationService.Navigate<SimpleResultTestViewModel, bool>();
 
@@ -239,14 +236,14 @@ namespace MvvmCross.Test.Navigation
                 x => x.ShowViewModel(It.Is<MvxViewModelRequest>(t => t.ViewModelType == typeof(SimpleResultTestViewModel))),
                 Times.Once);
 
-            Assert.IsTrue(MockDispatcher.Object.Requests.Count > 0);
-            Assert.IsTrue(result);
+            Assert.True(MockDispatcher.Object.Requests.Count > 0);
+            Assert.True(result);
         }
 
         [Fact]
         public async Task Test_NavigateCallbacks()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             int beforeNavigate = 0;
             int afterNavigate = 0;
@@ -262,14 +259,14 @@ namespace MvvmCross.Test.Navigation
             tasks.Add(navigationService.Navigate<SimpleParameterTestViewModel, string>("hello", new MvxBundle()));
             await Task.WhenAll(tasks);
 
-            Assert.IsTrue(beforeNavigate == 6);
-            Assert.IsTrue(afterNavigate == 6);
+            Assert.True(beforeNavigate == 6);
+            Assert.True(afterNavigate == 6);
         }
 
         [Fact]
         public async Task Test_CloseCallbacks()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             int beforeClose = 0;
             int afterClose = 0;
@@ -281,14 +278,14 @@ namespace MvvmCross.Test.Navigation
             tasks.Add(navigationService.Close<bool>(new SimpleResultTestViewModel(), false));
             await Task.WhenAll(tasks);
 
-            Assert.IsTrue(beforeClose == 2);
-            Assert.IsTrue(afterClose == 2);
+            Assert.True(beforeClose == 2);
+            Assert.True(afterClose == 2);
         }
 
         [Fact]
         public void Test_ChangePresentationCallbacks()
         {
-            var navigationService = Ioc.Resolve<IMvxNavigationService>();
+            var navigationService = _fixture.Ioc.Resolve<IMvxNavigationService>();
 
             int beforeChangePresentation = 0;
             int afterChangePresentation = 0;
@@ -297,8 +294,8 @@ namespace MvvmCross.Test.Navigation
 
             navigationService.ChangePresentation(new MvxClosePresentationHint(new SimpleTestViewModel()));
 
-            Assert.IsTrue(beforeChangePresentation == 1);
-            Assert.IsTrue(afterChangePresentation == 1);
+            Assert.True(beforeChangePresentation == 1);
+            Assert.True(afterChangePresentation == 1);
         }
     }
 }

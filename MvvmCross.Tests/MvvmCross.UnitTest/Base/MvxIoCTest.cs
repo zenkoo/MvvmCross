@@ -128,8 +128,8 @@ namespace MvvmCross.Platform.Test
 
             IA a;
             var result = Mvx.TryResolve(out a);
-            Assert.IsTrue(result);
-            Assert.IsNotNull(a);
+            Assert.True(result);
+            Assert.NotNull(a);
         }
 
         [Fact]
@@ -145,8 +145,8 @@ namespace MvvmCross.Platform.Test
 
             IA a;
             var result = Mvx.TryResolve(out a);
-            Assert.IsFalse(result);
-            Assert.IsNull(a);
+            Assert.False(result);
+            Assert.Null(a);
         }
 
         [Fact]
@@ -161,8 +161,8 @@ namespace MvvmCross.Platform.Test
 
             IA a;
             var result = Mvx.TryResolve(out a);
-            Assert.IsFalse(result);
-            Assert.IsNull(a);
+            Assert.False(result);
+            Assert.Null(a);
         }
 
         [Fact]
@@ -177,8 +177,8 @@ namespace MvvmCross.Platform.Test
 
             IA a;
             var result = Mvx.TryResolve(out a);
-            Assert.IsTrue(result);
-            Assert.IsNotNull(a);
+            Assert.True(result);
+            Assert.NotNull(a);
         }
 
         [Fact]
@@ -193,15 +193,15 @@ namespace MvvmCross.Platform.Test
 
             IA a0;
             var result = Mvx.TryResolve(out a0);
-            Assert.IsTrue(result);
-            Assert.IsNotNull(a0);
+            Assert.True(result);
+            Assert.NotNull(a0);
 
             for (int i = 0; i < 100; i++)
             {
                 IA a1;
                 result = Mvx.TryResolve(out a1);
-                Assert.IsTrue(result);
-                Assert.AreSame(a0, a1);
+                Assert.True(result);
+                Assert.Equal(a0, a1);
             }
         }
 
@@ -217,15 +217,15 @@ namespace MvvmCross.Platform.Test
 
             IA a0;
             var result = Mvx.TryResolve(out a0);
-            Assert.IsTrue(result);
-            Assert.IsNotNull(a0);
+            Assert.True(result);
+            Assert.NotNull(a0);
 
             for (int i = 0; i < 100; i++)
             {
                 IA a1;
                 result = Mvx.TryResolve(out a1);
-                Assert.IsTrue(result);
-                Assert.AreSame(a0, a1);
+                Assert.True(result);
+                Assert.Equal(a0, a1);
             }
         }
 
@@ -245,8 +245,8 @@ namespace MvvmCross.Platform.Test
             {
                 IA a1;
                 var result = Mvx.TryResolve(out a1);
-                Assert.IsTrue(result);
-                Assert.IsFalse(previous.ContainsKey(a1));
+                Assert.True(result);
+                Assert.False(previous.ContainsKey(a1));
                 Assert.Equal(i, previous.Count);
                 previous.Add(a1, true);
             }
@@ -264,10 +264,10 @@ namespace MvvmCross.Platform.Test
 
             IA a1;
             var result = Mvx.TryResolve(out a1);
-            Assert.IsTrue(result);
-            Assert.IsNotNull(a1);
-            Assert.IsNotNull(a1.B);
-            Assert.IsInstanceOf<B>(a1.B);
+            Assert.True(result);
+            Assert.NotNull(a1);
+            Assert.NotNull(a1.B);
+            Assert.IsType<B>(a1.B);
         }
 
         [Fact]
@@ -281,10 +281,10 @@ namespace MvvmCross.Platform.Test
             var c1 = Mvx.Resolve<IC>();
             var c2 = Mvx.Resolve<IC>();
 
-            Assert.IsNotNull(c1);
-            Assert.IsNotNull(c2);
+            Assert.NotNull(c1);
+            Assert.NotNull(c2);
 
-            Assert.AreNotEqual(c1, c2);
+            Assert.NotEqual(c1, c2);
         }
 
         [Fact]
@@ -298,10 +298,10 @@ namespace MvvmCross.Platform.Test
             var c1 = Mvx.Resolve<IC>();
             var c2 = Mvx.Resolve<IC>();
 
-            Assert.IsNotNull(c1);
-            Assert.IsNotNull(c2);
+            Assert.NotNull(c1);
+            Assert.NotNull(c2);
 
-            Assert.AreNotEqual(c1, c2);
+            Assert.NotEqual(c1, c2);
         }
 
         [Fact]
@@ -343,9 +343,9 @@ namespace MvvmCross.Platform.Test
             IOG<C2> toResolve = null;
             Mvx.TryResolve<IOG<C2>>(out toResolve);
 
-            Assert.IsNotNull(toResolve);
-            Assert.IsTrue(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG<C2>)));
-            Assert.IsTrue(toResolve.GetType() == typeof(OG<C2>));
+            Assert.NotNull(toResolve);
+            Assert.True(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG<C2>)));
+            Assert.True(toResolve.GetType() == typeof(OG<C2>));
         }
 
         [Fact]
@@ -359,9 +359,9 @@ namespace MvvmCross.Platform.Test
             IOG<C2> toResolve = null;
             Mvx.TryResolve<IOG<C2>>(out toResolve);
 
-            Assert.IsNotNull(toResolve);
-            Assert.IsTrue(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG<C2>)));
-            Assert.IsTrue(toResolve.GetType() == typeof(OG<C2>));
+            Assert.NotNull(toResolve);
+            Assert.True(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG<C2>)));
+            Assert.True(toResolve.GetType() == typeof(OG<C2>));
         }
 
         [Fact]
@@ -375,9 +375,9 @@ namespace MvvmCross.Platform.Test
             IOG2<C2, C> toResolve = null;
             Mvx.TryResolve<IOG2<C2,C>>(out toResolve);
 
-            Assert.IsNotNull(toResolve);
-            Assert.IsTrue(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG2<C2, C>)));
-            Assert.IsTrue(toResolve.GetType() == typeof(OG2<C2, C>));
+            Assert.NotNull(toResolve);
+            Assert.True(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG2<C2, C>)));
+            Assert.True(toResolve.GetType() == typeof(OG2<C2, C>));
         }
 
         [Fact]
@@ -391,9 +391,9 @@ namespace MvvmCross.Platform.Test
             IOG2<C2, C> toResolve = null;
             Mvx.TryResolve<IOG2<C2, C>>(out toResolve);
 
-            Assert.IsNotNull(toResolve);
-            Assert.IsTrue(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG2<C2, C>)));
-            Assert.IsTrue(toResolve.GetType() == typeof(OG2<C2, C>));
+            Assert.NotNull(toResolve);
+            Assert.True(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG2<C2, C>)));
+            Assert.True(toResolve.GetType() == typeof(OG2<C2, C>));
         }
 
         [Fact]
@@ -406,8 +406,8 @@ namespace MvvmCross.Platform.Test
 
             var isResolved = Mvx.TryResolve<IOG<C2>>(out toResolve);
 
-            Assert.IsFalse(isResolved);
-            Assert.IsNull(toResolve);
+            Assert.False(isResolved);
+            Assert.Null(toResolve);
         }
 
         [Fact]
@@ -422,11 +422,11 @@ namespace MvvmCross.Platform.Test
             IHasOGParameter toResolve = null;
             Mvx.TryResolve<IHasOGParameter>(out toResolve);
 
-            Assert.IsNotNull(toResolve);
-            Assert.IsTrue(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IHasOGParameter)));
-            Assert.IsTrue(toResolve.GetType() == typeof(HasOGParameter));
-            Assert.IsTrue(toResolve.OpenGeneric.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG<C>)));
-            Assert.IsTrue(toResolve.OpenGeneric.GetType() == typeof(OG<C>));
+            Assert.NotNull(toResolve);
+            Assert.True(toResolve.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IHasOGParameter)));
+            Assert.True(toResolve.GetType() == typeof(HasOGParameter));
+            Assert.True(toResolve.OpenGeneric.GetType().GetTypeInfo().ImplementedInterfaces.Any(i => i == typeof(IOG<C>)));
+            Assert.True(toResolve.OpenGeneric.GetType() == typeof(OG<C>));
         }
 
         #endregion
@@ -445,13 +445,13 @@ namespace MvvmCross.Platform.Test
 
             var b = childContainer.Create<IB>();
 
-            Assert.IsTrue(container.CanResolve<IC>());
-            Assert.IsFalse(container.CanResolve<IB>());
-            Assert.IsTrue(childContainer.CanResolve<IC>());
-            Assert.IsTrue(childContainer.CanResolve<IB>());
+            Assert.True(container.CanResolve<IC>());
+            Assert.False(container.CanResolve<IB>());
+            Assert.True(childContainer.CanResolve<IC>());
+            Assert.True(childContainer.CanResolve<IB>());
 
-            Assert.IsNotNull(b);
-            Assert.IsNotNull(b.C);
+            Assert.NotNull(b);
+            Assert.NotNull(b.C);
         }
 
         #endregion

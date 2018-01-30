@@ -10,16 +10,23 @@ using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.Binding.Test.Mocks;
 using MvvmCross.Platform.Converters;
 using MvvmCross.Platform.Core;
-using MvvmCross.Test.Core;
+using MvvmCross.Test;
 using MvvmCross.Test.Mocks.Dispatchers;
 using Xunit;
 
 namespace MvvmCross.Binding.Test.Bindings
 {
-    
-    public class MvxFullBindingValueConversionTest : MvxIoCSupportingTest
+    [Collection("MvxTest")]
+    public class MvxFullBindingValueConversionTest : IClassFixture<MvxTestFixture>
     {
- [Fact]
+        private readonly MvxTestFixture _fixture;
+
+        public MvxFullBindingValueConversionTest(MvxTestFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
+        [Fact]
         public void TestConverterIsUsedForConvert()
         {
             MockSourceBinding mockSource;
@@ -202,7 +209,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(1, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[0]);
+            Assert.Null(mockTarget.Values[0]);
 
             mockSource.TryGetValueValue = "Fred";
             mockSource.FireSourceChanged();
@@ -211,7 +218,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(2, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[1]);
+            Assert.Null(mockTarget.Values[1]);
 
             mockSource.TryGetValueValue = "Betty";
             mockSource.FireSourceChanged();
@@ -220,7 +227,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(3, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[2]);
+            Assert.Null(mockTarget.Values[2]);
         }
 
         [Fact]
@@ -278,7 +285,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(1, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[0]);
+            Assert.Null(mockTarget.Values[0]);
 
             mockSource.TryGetValueValue = "Fred";
             mockSource.FireSourceChanged();
@@ -287,7 +294,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(2, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[1]);
+            Assert.Null(mockTarget.Values[1]);
 
             mockSource.TryGetValueValue = "Betty";
             mockSource.FireSourceChanged();
@@ -296,7 +303,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(3, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[2]);
+            Assert.Null(mockTarget.Values[2]);
         }
 
         [Fact]
@@ -325,7 +332,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(2, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[1]);
+            Assert.Null(mockTarget.Values[1]);
 
             mockSource.TryGetValueResult = false;
             mockSource.FireSourceChanged();
@@ -334,7 +341,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(3, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[2]);
+            Assert.Null(mockTarget.Values[2]);
 
             mockSource.TryGetValueValue = "Fred";
             mockSource.TryGetValueResult = true;
@@ -420,7 +427,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(2, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[1]);
+            Assert.Null(mockTarget.Values[1]);
 
             mockSource.TryGetValueResult = false;
             mockSource.FireSourceChanged();
@@ -429,7 +436,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(3, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[2]);
+            Assert.Null(mockTarget.Values[2]);
 
             mockSource.TryGetValueResult = false;
             mockSource.FireSourceChanged();
@@ -438,7 +445,7 @@ namespace MvvmCross.Binding.Test.Bindings
             Assert.Equal(0, mockValueConverter.ConversionsBackRequested.Count);
 
             Assert.Equal(4, mockTarget.Values.Count);
-            Assert.Equal(null, mockTarget.Values[3]);
+            Assert.Null(mockTarget.Values[3]);
         }
 
         private MvxFullBinding TestSetupCommon(IMvxValueConverter valueConverter, object converterParameter,
@@ -450,19 +457,18 @@ namespace MvvmCross.Binding.Test.Bindings
         private MvxFullBinding TestSetupCommon(IMvxValueConverter valueConverter, object converterParameter, object fallbackValue,
             Type targetType, out MockSourceBinding mockSource, out MockTargetBinding mockTarget)
         {
-            ClearAll();
-            MvxBindingSingletonCache.Initialize();
-            Ioc.RegisterSingleton<IMvxMainThreadDispatcher>(new InlineMockMainThreadDispatcher());
+            _fixture.ClearAll();
+            _fixture.Ioc.RegisterSingleton<IMvxMainThreadDispatcher>(new InlineMockMainThreadDispatcher());
 
             var mockSourceBindingFactory = new Mock<IMvxSourceBindingFactory>();
-            Ioc.RegisterSingleton(mockSourceBindingFactory.Object);
+            _fixture.Ioc.RegisterSingleton(mockSourceBindingFactory.Object);
 
             var mockTargetBindingFactory = new Mock<IMvxTargetBindingFactory>();
-            Ioc.RegisterSingleton(mockTargetBindingFactory.Object);
+            _fixture.Ioc.RegisterSingleton(mockTargetBindingFactory.Object);
 
             var realSourceStepFactory = new MvxSourceStepFactory();
             realSourceStepFactory.AddOrOverwrite(typeof(MvxPathSourceStepDescription), new MvxPathSourceStepFactory());
-            Ioc.RegisterSingleton<IMvxSourceStepFactory>(realSourceStepFactory);
+            _fixture.Ioc.RegisterSingleton<IMvxSourceStepFactory>(realSourceStepFactory);
 
             var sourceText = "sourceText";
             var targetName = "targetName";

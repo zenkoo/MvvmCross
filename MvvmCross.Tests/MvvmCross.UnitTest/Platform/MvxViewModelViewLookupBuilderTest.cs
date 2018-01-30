@@ -1,4 +1,4 @@
-// MvxViewModelViewLookupBuilderTest.cs
+﻿// MvxViewModelViewLookupBuilderTest.cs
 
 // MvvmCross is licensed using Microsoft Public License (Ms-PL)
 // Contributions and inspirations noted in readme.md and license.txt
@@ -6,27 +6,33 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Test.Core;
 using MvvmCross.Test.Mocks.TestViewModels;
 using MvvmCross.Test.Mocks.TestViews;
 using Xunit;
 
 namespace MvvmCross.Test.Platform
 {
-    
-    public class MvxViewModelViewLookupBuilderTest : MvxIoCSupportingTest
+    [Collection("MvxTest")]
+    public class MvxViewModelViewLookupBuilderTest : IClassFixture<MvxTestFixture>
     {
+        private readonly MvxTestFixture _fixture;
+
+        public MvxViewModelViewLookupBuilderTest(MvxTestFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public void Test_Builder()
         {
-            ClearAll();
+            _fixture.ClearAll();
 
             var assembly = GetType().Assembly;
             var viewModelNameLookup = new MvxViewModelByNameLookup();
             viewModelNameLookup.AddAll(assembly);
             var nameMapping = new MvxPostfixAwareViewToViewModelNameMapping("View", "Oddness");
             var finder = new MvxViewModelViewTypeFinder(viewModelNameLookup, nameMapping);
-            Ioc.RegisterSingleton<IMvxViewModelTypeFinder>(finder);
+            _fixture.Ioc.RegisterSingleton<IMvxViewModelTypeFinder>(finder);
 
             var builder = new MvxViewModelViewLookupBuilder();
             var result = builder.Build(new[] { assembly });
